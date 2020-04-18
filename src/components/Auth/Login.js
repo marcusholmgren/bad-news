@@ -1,5 +1,6 @@
 import React, { useState} from "react";
 import useFormValidation from './useFormValidation';
+import validateLogin from './validateLogin';
 
 const INITIAL_STATE = {
   name: "",
@@ -8,7 +9,7 @@ const INITIAL_STATE = {
 }
 
 function Login(props) {
-  const { handleSubmit, handleChange, values} = useFormValidation(INITIAL_STATE);
+  const { handleSubmit, handleBlur, handleChange, values, errors, isSubmitting}= useFormValidation(INITIAL_STATE, validateLogin);
   const [login, setLogin] = useState(true);
 
   return <div>
@@ -27,14 +28,26 @@ function Login(props) {
              value={values.email}
              placeholder="Your email"
              autoComplete="off"
-             onChange={handleChange} />
+             className={errors.email && "error-input"}
+             onChange={handleChange}
+             onBlur={handleBlur}
+      />
+      {errors.email && <p className="error-text">{errors.email}</p>}
       <input type="password"
              name="password"
              value={values.password}
              placeholder="Choose a secure password"
-             onChange={handleChange}/>
+             className={errors.password && "error-input"}
+             onChange={handleChange}
+             onBlur={handleBlur}
+      />
+      {errors.password && <p className="error-text">{errors.password}</p>}
       <div className="flex mt3">
-        <button type="submit" className="button pointer mr2">
+        <button type="submit"
+                className="button pointer mr2"
+                disabled={isSubmitting}
+                style={{ background: isSubmitting ? 'grey' : 'orange'}}
+        >
           Submit
         </button>
         <button type="button" className="pointer button"

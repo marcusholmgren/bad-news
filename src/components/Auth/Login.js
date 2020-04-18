@@ -1,4 +1,5 @@
 import React, { useState} from "react";
+import { useNavigate } from 'react-router-dom';
 import useFormValidation from './useFormValidation';
 import validateLogin from './validateLogin';
 import firebase from '../../firebase';
@@ -15,6 +16,7 @@ function Login(props) {
   } = useFormValidation(INITIAL_STATE, validateLogin, authenticateUser);
   const [login, setLogin] = useState(true);
   const [firebaseError, setFirebaseError] = useState(null);
+  const navigate = useNavigate();
 
   async function authenticateUser() {
     const { name, email, password} = values;
@@ -22,6 +24,7 @@ function Login(props) {
       login
           ? await firebase.login(email, password)
           : await firebase.register(name, email, password);
+      navigate('/');
     } catch(err) {
       console.error("[Login] Authentication error", err);
       setFirebaseError(err.message);

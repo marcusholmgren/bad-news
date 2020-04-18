@@ -16,7 +16,7 @@ function useFormValidation(initialState, validate, authenticate) {
              setSubmitting(false);
             }
         }
-    }, [errors, isSubmitting, values]);
+    }, [errors, isSubmitting, values, authenticate]);
 
 
     function handleChange(event) {

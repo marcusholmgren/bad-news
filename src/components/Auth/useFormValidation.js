@@ -8,7 +8,7 @@ function useFormValidation(initialState, validate) {
 
     useEffect(() => {
         if (isSubmitting) {
-            const noErrors = Object.keys(errors) === 0;
+            const noErrors = Object.keys(errors).length === 0;
             if (noErrors) {
                 console.log("authenticate users", values);
                 setSubmitting(false);

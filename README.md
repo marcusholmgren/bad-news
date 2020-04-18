@@ -68,3 +68,22 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+### Configure Firebase
+
+You must create a configuration file with your [Firebase](https://firebase.google.com) setting `src/firebase/config.js`.
+This file is ignored by git.
+
+```javascript
+ const firebaseConfig = {
+    apiKey: '<your-api-key>',
+    authDomain: '<your-auth-domain>',
+    databaseURL: '<your-database-url>',
+    projectId: '<your-cloud-firestore-project>',
+    storageBucket: '<your-storage-bucket>',
+    messagingSenderId: '<your-sender-id>'
+  };
+
+export default firebaseConfig;
+```

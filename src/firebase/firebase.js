@@ -23,6 +23,10 @@ class Firebase {
     async logout() {
         return await this.auth.signOut();
     }
+
+    async resetPassword(email) {
+        return await this.auth.sendPasswordResetEmail(email);
+    }
 }
 
 const firebase = new Firebase();

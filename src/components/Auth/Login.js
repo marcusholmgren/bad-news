@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import useFormValidation from './useFormValidation';
 import validateLogin from './validateLogin';
 import firebase from '../../firebase';
@@ -77,6 +77,9 @@ function Login(props) {
         </button>
       </div>
     </form>
+    <div className="forgot-password">
+      <Link to="/forgot">Forgot password?</Link>
+    </div>
   </div>;
 }
 

@@ -1,16 +1,37 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, {useContext} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import {getDomain} from "../../utils";
+import {FirebaseContext} from "../../firebase";
 
 
 function LinkItem({ link, index, showCount }) {
     const option = {hour: "numeric", dayPeriod: "short"};
     const dateTimeFormat = new Intl.DateTimeFormat("en-US", option);
+    const { firebase, user } = useContext(FirebaseContext);
+    const navigate = useNavigate();
+
+    function handleVote() {
+        if (!user) {
+            navigate("/login");
+        } else {
+            const voteRef = firebase.db.collection('links').doc(link.id);
+            voteRef.get().then(doc => {
+                if (doc.exists) {
+                    const previouseVotes = doc.data().votes;
+                    const vote = { votedBy: { id: user.uid, name: user.displayName } };
+                    const updatedVotes = [...previouseVotes, vote];
+                    voteRef.update({ votes: updatedVotes });
+
+                }
+            })
+        }
+    }
+
     return (
       <div className="flex items-start mt2">
         <div className="flex items-center">
           {showCount && <span className="gray">{index}</span>}
-          <div className="vote-button">
+          <div className="vote-button" onClick={handleVote}>
             &#x25B2;
           </div>
           <div className="ml1">

@@ -9,7 +9,7 @@ function LinkList() {
 
     useEffect(() => {
         getLinksOnce();
-    }, [getLinksOnce]);
+    }, [getLinksOnce, links]);
 
     function handleSnapshot(snapshot) {
         const links = snapshot.docs.map(doc => {

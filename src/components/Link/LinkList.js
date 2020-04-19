@@ -1,15 +1,16 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import FirebaseContext from "../../firebase/context";
 import LinkItem from "./LinkItem";
 
 function LinkList() {
     const {firebase} = useContext(FirebaseContext);
-    const getLinksOnce = useCallback(getLinks, []);
     const [links, setLinks] = useState([]);
 
     useEffect(() => {
-        getLinksOnce();
-    }, [getLinksOnce, links]);
+        const unsubscribe = firebase.db.collection("links").onSnapshot(handleSnapshot);
+
+        return () => unsubscribe();
+    }, [firebase.db]);
 
     function handleSnapshot(snapshot) {
         const links = snapshot.docs.map(doc => {
@@ -20,10 +21,6 @@ function LinkList() {
         })
 
         setLinks(links);
-    }
-
-    function getLinks() {
-        firebase.db.collection("links").onSnapshot(handleSnapshot)
     }
 
     return (

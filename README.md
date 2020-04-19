@@ -72,18 +72,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### Configure Firebase
 
-You must create a configuration file with your [Firebase](https://firebase.google.com) setting `src/firebase/config.js`.
-This file is ignored by git.
+You must edit the configuration file with your [Firebase](https://firebase.google.com) setting `src/firebase/config.js`.
 
-```javascript
- const firebaseConfig = {
-    apiKey: '<your-api-key>',
-    authDomain: '<your-auth-domain>',
-    databaseURL: '<your-database-url>',
-    projectId: '<your-cloud-firestore-project>',
-    storageBucket: '<your-storage-bucket>',
-    messagingSenderId: '<your-sender-id>'
-  };
+After you have changed your setting you should run git to ignore any changes made (to not accidentally commit changes to your repository)
 
-export default firebaseConfig;
+```cli
+git update-index --assume-unchanged src/firebase/config.js
 ```

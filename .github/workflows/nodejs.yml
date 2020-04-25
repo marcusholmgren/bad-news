@@ -29,9 +29,9 @@ jobs:
     - name: Install dependencies
       run: yarn
       working-directory: ${{ env.working-dir }}
-    - run: npm run build --if-present
+    - run: yarn build --if-present
       working-directory: ${{ env.working-dir }}
-    - run: npm test --if-present
+    - run: yarn test --if-present
       working-directory: ${{ env.working-dir }}
       env:
         CI: true

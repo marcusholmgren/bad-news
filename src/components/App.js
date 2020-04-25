@@ -27,7 +27,7 @@ function App() {
                             <Route path="/forgot" element={<ForgotPassword/>}/>
                             <Route path="/search" element={<SearchLinks/>}/>
                             <Route path="/top" element={<LinkList/>}/>
-                            <Route path="/new/:page" element={<LinkList/>}/>
+                            <Route path="/new/:page" element={<LinkList page="1"/>}/>
                             <Route path="/link/:linkId" element={<LinkDetail/>}/>
                         </Routes>
 

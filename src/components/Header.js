@@ -10,7 +10,7 @@ function Header() {
             <NavLink to="/" className="header-title">
                 Bad News
             </NavLink>
-            <NavLink to="/" className="header-link">
+            <NavLink to="/new/1" className="header-link">
                 new
             </NavLink>
             <div className="divider">|</div>

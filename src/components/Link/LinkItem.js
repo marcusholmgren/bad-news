@@ -5,7 +5,7 @@ import {FirebaseContext} from "../../firebase";
 
 
 function LinkItem({ link, index, showCount }) {
-    const option = {hour: "numeric", dayPeriod: "short"};
+    const option = {hour: "numeric", dayPeriod: "short", weekday: 'long', month: 'numeric', day: 'numeric'};
     const dateTimeFormat = new Intl.DateTimeFormat("en-US", option);
     const { firebase, user } = useContext(FirebaseContext);
     const navigate = useNavigate();
@@ -17,11 +17,11 @@ function LinkItem({ link, index, showCount }) {
             const voteRef = firebase.db.collection('links').doc(link.id);
             voteRef.get().then(doc => {
                 if (doc.exists) {
-                    const previouseVotes = doc.data().votes;
+                    const previousVotes = doc.data().votes;
                     const vote = { votedBy: { id: user.uid, name: user.displayName } };
-                    const updatedVotes = [...previouseVotes, vote];
-                    voteRef.update({ votes: updatedVotes });
-
+                    const updatedVotes = [...previousVotes, vote];
+                    return voteRef.update({ votes: updatedVotes })
+                        .catch(err => console.error('[LinkItem] Failed to update votes: ', err));
                 }
             })
         }

@@ -7,15 +7,24 @@ function LinkList() {
     const {firebase} = useContext(FirebaseContext);
     const [links, setLinks] = useState([]);
     const location = useLocation();
+    const isTopPage = location.pathname === '/top';
 
     useEffect(() => {
-        const unsubscribe = firebase.db
+        let unsubscribe;
+        if (isTopPage) {
+            unsubscribe = firebase.db
             .collection("links")
-            .orderBy('created', 'desc')
+            .orderBy('voteCount', 'desc')
             .onSnapshot(handleSnapshot);
+        } else {
+            unsubscribe = firebase.db
+                .collection("links")
+                .orderBy('created', 'desc')
+                .onSnapshot(handleSnapshot);
+        }
 
         return () => unsubscribe();
-    }, [firebase.db, location]);
+    }, [firebase.db, location, isTopPage]);
 
     function handleSnapshot(snapshot) {
         const links = snapshot.docs.map(doc => {
@@ -28,17 +37,10 @@ function LinkList() {
         setLinks(links);
     }
 
-    function renderLinks() {
-        if (!location.pathname.toString().startsWith("/top")) {
-            return links;
-        }
-
-        return links.slice().sort((l1, l2) => l2.votes.length - l1.votes.length);
-    }
 
     return (
         <div>
-            {renderLinks().map((link, index) => (
+            {links.map((link, index) => (
                 <LinkItem
                     key={link.id}
                     showCount={true}

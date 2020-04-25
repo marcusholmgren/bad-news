@@ -31,7 +31,7 @@ jobs:
       working-directory: ${{ env.working-dir }}
     - run: yarn build --if-present
       working-directory: ${{ env.working-dir }}
-    - run: yarn test --if-present
+    - run: yarn test
       working-directory: ${{ env.working-dir }}
       env:
         CI: true

@@ -1,2 +1,2 @@
 yarn build
-echo yarn deploy
+yarn deploy

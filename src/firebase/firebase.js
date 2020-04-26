@@ -1,7 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-//import 'firebase/analytics';
+import 'firebase/analytics';
 import firebaseConfig from "./config";
 
 
@@ -9,7 +9,7 @@ class Firebase {
     constructor() {
         // Initialize Firebase
         app.initializeApp(firebaseConfig);
-        // app.analytics();
+        app.analytics();
         this.auth = app.auth();
         this.db = app.firestore();
     }

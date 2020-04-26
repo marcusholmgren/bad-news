@@ -74,6 +74,15 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 You must edit the configuration file with your [Firebase](https://firebase.google.com) setting `src/firebase/config.js`.
 
+You need to also configure and export `firebaseEndpoints` with the correct URLs
+
+```javascript
+const firebaseEndpoints = {
+    linksPagination: "https://localhost/linksPagination"
+};
+export {firebaseEndpoints};
+```
+
 After you have changed your setting you should run git to ignore any changes made (to not accidentally commit changes to your repository)
 
 ```cli

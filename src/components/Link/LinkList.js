@@ -3,6 +3,7 @@ import {useParams, useLocation, useNavigate} from "react-router-dom";
 import FirebaseContext from "../../firebase/context";
 import LinkItem from "./LinkItem";
 import {LINKS_PER_PAGE} from "../../utils";
+import {firebaseEndpoints} from '../../firebase';
 
 function LinkList() {
     const {firebase} = useContext(FirebaseContext);
@@ -17,7 +18,18 @@ function LinkList() {
     useEffect(() => {
         const page = Number(params.page);
         if (page > 1 && !cursor) {
-            navigate('/new/1');
+            const offset = page * LINKS_PER_PAGE - LINKS_PER_PAGE;
+
+
+            fetch(`${firebaseEndpoints.linksPagination}?offset=${offset}`)
+                .then(res => res.json())
+                .then(links => {
+                    const lastLink = links[links.length - 1];
+                    setLinks(links);
+                    setCursor(lastLink);
+                })
+                .catch(err => console.error(err));
+            return () => {};
         }
 
         let unsubscribe;

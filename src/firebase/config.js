@@ -8,4 +8,8 @@ const firebaseConfig = {
     messagingSenderId: '<your-sender-id>'
 };
 
+const firebaseEndpoints = {
+    linksPagination: "https://<your-functions-url>/linksPagination"
+};
+export {firebaseEndpoints};
 export default firebaseConfig;

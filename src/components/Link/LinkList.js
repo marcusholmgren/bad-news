@@ -9,13 +9,16 @@ function LinkList() {
     const {firebase} = useContext(FirebaseContext);
     const [links, setLinks] = useState([]);
     const [cursor, setCursor] = useState(null);
+    const [loading, setLoading] = useState(false);
     const location = useLocation();
     const isNewPage = location.pathname.startsWith('/new');
     const isTopPage = location.pathname.startsWith('/top');
     const params = useParams();
     const navigate = useNavigate();
+    const linksRef = firebase.db.collection('links');
 
     useEffect(() => {
+        setLoading(true);
         const page = Number(params.page);
         if (page > 1 && !cursor) {
             const offset = page * LINKS_PER_PAGE - LINKS_PER_PAGE;
@@ -27,6 +30,7 @@ function LinkList() {
                     const lastLink = links[links.length - 1];
                     setLinks(links);
                     setCursor(lastLink);
+                    setLoading(false);
                 })
                 .catch(err => console.error(err));
             return () => {};
@@ -34,27 +38,25 @@ function LinkList() {
 
         let unsubscribe;
         if (isTopPage) {
-            unsubscribe = firebase.db
-                .collection("links")
+            unsubscribe = linksRef
                 .orderBy('voteCount', 'desc')
                 .limit(LINKS_PER_PAGE)
                 .onSnapshot(handleSnapshot);
         } else if (cursor && page > 1) {
-            unsubscribe = firebase.db
-                .collection("links")
+            unsubscribe = linksRef
                 .orderBy('created', 'desc')
                 .startAfter(cursor.created)
                 .limit(LINKS_PER_PAGE)
                 .onSnapshot(handleSnapshot);
         } else {
-            unsubscribe = firebase.db
-                .collection("links")
+            unsubscribe = linksRef
                 .orderBy('created', 'desc')
                 .limit(LINKS_PER_PAGE)
                 .onSnapshot(handleSnapshot);
         }
 
         return () => unsubscribe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firebase.db, location, isTopPage, params, navigate]);
 
     function handleSnapshot(snapshot) {
@@ -68,6 +70,7 @@ function LinkList() {
         const lastLink = links[links.length - 1];
         setLinks(links);
         setCursor(lastLink);
+        setLoading(false);
     }
 
 
@@ -87,7 +90,7 @@ function LinkList() {
 
     const pageIndex = params.page ? (Number(params.page)  - 1) * LINKS_PER_PAGE : 0;
     return (
-        <div>
+        <div style={{ opacity: loading ? 0.25 : 1}}>
             {links.map((link, index) => (
                 <LinkItem
                     key={link.id}

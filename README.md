@@ -1,6 +1,6 @@
 ![Node.js CI](https://github.com/marcusholmgren/bad-news/workflows/Node.js%20CI/badge.svg)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The app is hopefully available at [ttps://bad-news-app.web.app](https://bad-news-app.web.app).
 
 ## Available Scripts
 

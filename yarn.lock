@@ -1988,17 +1988,17 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@snowpack/app-scripts-react@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@snowpack/app-scripts-react/-/app-scripts-react-1.0.6.tgz#2554a7f51424ac6cc35161cf7f3785e5c8e2f43d"
-  integrity sha512-wV7cd81bG0UVtIVFY6rpyYkf/Ykg6zY9VCmvW49JT+DRYcwQyWR4BJW+yAs3ae7yJK3yy1kGiYIcrQS2gfeTdg==
+"@snowpack/app-scripts-react@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@snowpack/app-scripts-react/-/app-scripts-react-1.1.0.tgz#966c5f6844f846a94d437dfadf72f6cb9e8c062d"
+  integrity sha512-mBjWsw3p1Y0eEsONFq3k7qqiD53Y9gxAe36VuxolxXYILVL/i2Y8BevRyzIgOEmHgFh8yR213jsRuqJnN1A2+w==
   dependencies:
     "@babel/core" "^7.0.0"
     "@babel/plugin-syntax-import-meta" "^7.8.3"
     "@babel/preset-react" "^7.9.4"
     "@babel/preset-typescript" "^7.9.0"
     "@snowpack/plugin-babel" "^1.0.0"
-    "@snowpack/plugin-react-refresh" "^1.0.0"
+    "@snowpack/plugin-dotenv" "^1.1.0"
     babel-jest "^25.4.0"
     babel-preset-react-app "^9.1.2"
     react-app-polyfill "^1.0.6"
@@ -2010,12 +2010,12 @@
   dependencies:
     "@babel/core" "^7.9.6"
 
-"@snowpack/plugin-react-refresh@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@snowpack/plugin-react-refresh/-/plugin-react-refresh-1.0.0.tgz#ecad5faaefc6edf06027233ea37caab45eae21be"
-  integrity sha512-jX8ujaSWgf0MD7EJhU4wh6R7Yyh67quRkJJ7Pau1K7Q3yFf4CoPg6V9222uN4+WO89O65tHPfr1b+bfydpqMHg==
+"@snowpack/plugin-dotenv@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@snowpack/plugin-dotenv/-/plugin-dotenv-1.1.0.tgz#4025d26ba04d15af415ad85b331ec99983f00d6d"
+  integrity sha512-sdqv33a7+vdEAa0yNGqNKiqgRba8VMxKNjIDZhmCxzBv3SkwvZd2jTdOkhXYBs831PZ6X+CpFamEvrcJzEORiA==
   dependencies:
-    react-refresh "^0.8.0"
+    dotenv "^8.2.0"
 
 "@szmarczak/http-timer@^4.0.5":
   version "4.0.5"
@@ -2173,13 +2173,6 @@
   resolved "https://registry.yarnpkg.com/@types/http-cache-semantics/-/http-cache-semantics-4.0.0.tgz#9140779736aa2655635ee756e2467d787cfe8a2a"
   integrity sha512-c3Xy026kOF7QOTn00hbIllV1dLR9hG9NkSrLQgCVs8NF6sBU+VGWjD3wLPhmh1TYAc7ugCFsvHYMN4VcBN1U1A==
 
-"@types/http-proxy@^1.17.4":
-  version "1.17.4"
-  resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.17.4.tgz#e7c92e3dbe3e13aa799440ff42e6d3a17a9d045b"
-  integrity sha512-IrSHl2u6AWXduUaDLqYpt45tLVCtYv7o4Z0s1KghBCDgIIS9oW5K1H8mZG/A2CfeLdEa7rTd1ACOiHBc1EMT2Q==
-  dependencies:
-    "@types/node" "*"
-
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.1.tgz#42995b446db9a48a11a07ec083499a860e9138ff"
@@ -2229,13 +2222,6 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"
   integrity sha512-FwI9gX75FgVBJ7ywgnq/P7tw+/o1GUbtP0KzbtusLigAOgIgNISRK0ZPl4qertvXSIE8YbsVJueQ90cDt9YYyw==
-
-"@types/minipass@*":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@types/minipass/-/minipass-2.2.0.tgz#51ad404e8eb1fa961f75ec61205796807b6f9651"
-  integrity sha512-wuzZksN4w4kyfoOv/dlpov4NOunwutLA/q7uc00xU02ZyUY+aoM5PWIXEKBMnm0NHd4a+N71BMjq+x7+2Af1fg==
-  dependencies:
-    "@types/node" "*"
 
 "@types/node@*", "@types/node@^13.7.0":
   version "13.13.2"
@@ -2313,14 +2299,6 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
-
-"@types/tar@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@types/tar/-/tar-4.0.3.tgz#e2cce0b8ff4f285293243f5971bd7199176ac489"
-  integrity sha512-Z7AVMMlkI8NTWF0qGhC4QIX0zkV/+y0J8x7b/RsHrN0310+YNjoJd8UrApCiGBCWtKjxS9QhNqLi2UJNToh5hA==
-  dependencies:
-    "@types/minipass" "*"
-    "@types/node" "*"
 
 "@types/testing-library__dom@*", "@types/testing-library__dom@^7.0.0":
   version "7.0.2"
@@ -2425,7 +2403,7 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ansi-escapes@^4.2.1, ansi-escapes@^4.3.1:
+ansi-escapes@^4.2.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.1.tgz#a5c47cc43181f1f38ffd7076837700d395522a61"
   integrity sha512-JWF7ocqNrp8u9oqpgV+wH5ftbt+cfvv+PTjOvKLT3AdYly/LmORARfEVT1iyjwN+4MqE5UmVKoAdIBqeoCHgLA==
@@ -3607,6 +3585,11 @@ dot-prop@^5.2.0:
   integrity sha512-uEUyaDKoSQ1M4Oq8l45hSE26SnTxL6snNnqvK/VWx5wJhmff5z0FUVJDKDanor/6w3kzE3i7XZOk+7wC0EXr1A==
   dependencies:
     is-obj "^2.0.0"
+
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 duplexify@^3.5.0, duplexify@^3.6.0:
   version "3.7.1"
@@ -7019,11 +7002,6 @@ react-is@^16.12.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-refresh@^0.8.0:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
-  integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
-
 react-router-dom@6.0.0-alpha.5:
   version "6.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.0.0-alpha.5.tgz#3c3e22226ee610eb91042a351741ce3f53596323"
@@ -7611,10 +7589,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-snowpack@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/snowpack/-/snowpack-2.1.0.tgz#883af0977766550096a5255e5f28f53dcf6ed515"
-  integrity sha512-mWtgxaX+UewxB5xlHG9KiiNOYKqw6QnYP/wmdyjwjjp2ujMZ8wENK/dD4Fs/LK2fG6miFDkbXQVgwpwTtgGhdw==
+snowpack@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/snowpack/-/snowpack-2.2.0.tgz#6a578c2032a77a79587761ce059b91410a2283fd"
+  integrity sha512-odMgI4qXSc+PEpwO7sBUBeJBSx4wkhikU/lAOSJp6r4wnh4J6uZvobWH90bHTKWQgSQzCDsrle5/3tvH8vEX5Q==
   dependencies:
     "@babel/plugin-syntax-import-meta" "^7.8.3"
     "@rollup/plugin-alias" "^3.0.1"
@@ -7622,9 +7600,6 @@ snowpack@^2.0.0:
     "@rollup/plugin-json" "^4.0.0"
     "@rollup/plugin-node-resolve" "^7.1.0"
     "@rollup/plugin-replace" "^2.1.0"
-    "@types/http-proxy" "^1.17.4"
-    "@types/tar" "^4.0.3"
-    ansi-escapes "^4.3.1"
     cacache "^15.0.0"
     cachedir "^2.3.0"
     chalk "^4.0.0"

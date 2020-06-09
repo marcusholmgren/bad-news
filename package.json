@@ -44,6 +44,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "4.0.4",
-    "flow-bin": "^0.125.1"
+    "flow-bin": "^0.126.1"
   }
 }

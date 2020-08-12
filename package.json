@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/jest-dom": "^5.11.2",
     "@testing-library/react": "^10.4.7",
     "@testing-library/user-event": "^12.1.1",
-    "firebase": "^7.16.0",
+    "firebase": "^7.17.2",
     "firebase-admin": "^8.13.0",
     "firebase-functions": "^3.9.0",
     "react": "^16.13.1",
@@ -38,11 +38,11 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.4.0",
+    "eslint": "^7.6.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "4.0.8",
     "flow-bin": "^0.128.0"
   }

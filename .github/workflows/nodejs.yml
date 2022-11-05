@@ -23,13 +23,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Client use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
-      run: yarn
+      run: yarn install --immutable
       working-directory: ${{ env.working-dir }}
-    - run: yarn build --if-present
+    - run: yarn build
       working-directory: ${{ env.working-dir }}
 #    - run: yarn test
 #      working-directory: ${{ env.working-dir }}

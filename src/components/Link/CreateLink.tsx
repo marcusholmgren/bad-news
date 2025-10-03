@@ -1,21 +1,34 @@
 
 import React, {useContext} from "react";
 import {useNavigate} from 'react-router-dom';
+import { collection, addDoc } from 'firebase/firestore';
 import useFormValidation from "../Auth/useFormValidation";
 import validateCreateLink from "../Auth/validateCreateLink";
 import FirebaseContext from "../../firebase/context";
 
-const INITIAL_STATE = {
+interface CreateLinkValues {
+    description: string;
+    url: string;
+}
+
+const INITIAL_STATE: CreateLinkValues = {
     description: "",
     url: ""
 }
 
-function CreateLink() {
-    const { firebase, user } = useContext(FirebaseContext);
-    const  { handleSubmit, handleChange, values, errors } = useFormValidation(INITIAL_STATE, validateCreateLink, handleCreateLink);
+const CreateLink: React.FC = () => {
+    const context = useContext(FirebaseContext);
     const navigate = useNavigate();
 
-    function handleCreateLink() {
+    if (!context) {
+        return null;
+    }
+
+    const { firebase, user } = context;
+
+    const { handleSubmit, handleChange, values, errors } = useFormValidation(INITIAL_STATE, validateCreateLink, handleCreateLink);
+
+    async function handleCreateLink() {
         if (!user) {
             navigate('/login')
         } else {
@@ -32,7 +45,7 @@ function CreateLink() {
                 comments: [],
                 created: Date.now()
             }
-            firebase.db.collection("links").add(newLink);
+            await addDoc(collection(firebase.db, "links"), newLink);
             navigate("/")
         }
     }

@@ -2,26 +2,52 @@ import React, {useContext} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {getDomain} from "../../utils";
 import {FirebaseContext} from "../../firebase";
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
+interface LinkData {
+    id: string;
+    url: string;
+    description: string;
+    created: number;
+    voteCount: number;
+    postedBy: {
+        id: string;
+        name: string;
+    };
+    comments: any[];
+    votes: any[];
+}
 
-function LinkItem({ link, index, showCount }) {
-    const option = {hour: "numeric", dayPeriod: "short", weekday: 'long', month: 'numeric', day: 'numeric'};
+interface LinkItemProps {
+    link: LinkData;
+    index: number;
+    showCount: boolean;
+}
+
+const LinkItem: React.FC<LinkItemProps> = ({ link, index, showCount }) => {
+    const option: Intl.DateTimeFormatOptions = {hour: "numeric", dayPeriod: "short", weekday: 'long', month: 'numeric', day: 'numeric'};
     const dateTimeFormat = new Intl.DateTimeFormat("en-US", option);
-    const { firebase, user } = useContext(FirebaseContext);
+    const context = useContext(FirebaseContext);
     const navigate = useNavigate();
+
+    if (!context) {
+        return null;
+    }
+
+    const { firebase, user } = context;
 
     function handleVote() {
         if (!user) {
             navigate("/login");
         } else {
-            const voteRef = firebase.db.collection('links').doc(link.id);
-            voteRef.get().then(doc => {
-                if (doc.exists) {
-                    const previousVotes = doc.data().votes;
+            const voteRef = doc(firebase.db, 'links', link.id);
+            getDoc(voteRef).then(docSnap => {
+                if (docSnap.exists()) {
+                    const previousVotes = docSnap.data().votes;
                     const vote = { votedBy: { id: user.uid, name: user.displayName } };
                     const updatedVotes = [...previousVotes, vote];
                     const voteCount = updatedVotes.length;
-                    return voteRef.update({ votes: updatedVotes, voteCount })
+                    updateDoc(voteRef, { votes: updatedVotes, voteCount })
                         .catch(err => console.error('[LinkItem] Failed to update votes: ', err));
                 }
             })
@@ -29,13 +55,12 @@ function LinkItem({ link, index, showCount }) {
     }
 
     function handleDeleteLink() {
-        const linkRef = firebase.db.collection('links').doc(link.id);
-        linkRef.delete().then(() => {
+        const linkRef = doc(firebase.db, 'links', link.id);
+        deleteDoc(linkRef).then(() => {
             console.log(`Document with ID ${link.id} deleted`);
         }).catch(err => {
             console.error(`Error deleting document with ${link.id}`, { err });
         })
-
     }
     const postedByAuthUser = user && user.uid === link.postedBy.id;
 

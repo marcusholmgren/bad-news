@@ -2,8 +2,14 @@ import React, {useContext} from "react";
 import {NavLink} from 'react-router-dom';
 import {FirebaseContext} from "../firebase";
 
-function Header() {
-    const {user, firebase} = useContext(FirebaseContext);
+const Header: React.FC = () => {
+    const context = useContext(FirebaseContext);
+
+    if (!context) {
+        return null;
+    }
+
+    const { user, firebase } = context;
     return <div className="header">
         <div className="flex">
             <img src="/logo192.png" alt="React Logo" className="logo"/>

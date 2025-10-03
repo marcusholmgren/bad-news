@@ -1,11 +1,16 @@
 import React, {useState, useContext} from "react";
 import FirebaseContext from "../../firebase/context";
 
-function ForgotPassword() {
-  const {firebase} = useContext(FirebaseContext);
+const ForgotPassword: React.FC = () => {
+  const context = useContext(FirebaseContext);
   const [userEmail, setEmail] = useState('');
   const [isPasswordReset, setPasswordReset] = useState(false);
-  const [passwordResetError, setPasswordResetError] = useState(null);
+  const [passwordResetError, setPasswordResetError] = useState<string | null>(null);
+
+  if (!context) {
+    return null;
+  }
+  const { firebase } = context;
 
   async function handleResetPassword() {
     try {
@@ -13,8 +18,10 @@ function ForgotPassword() {
       setPasswordReset(true);
       setPasswordResetError(null);
     } catch(err) {
-      console.error("[ForgotPassword] Reset Password errror", err);
-      setPasswordResetError(err.message);
+      if (err instanceof Error) {
+        console.error("[ForgotPassword] Reset Password errror", err);
+        setPasswordResetError(err.message);
+      }
       setPasswordReset(false);
     }
   }
@@ -23,7 +30,7 @@ function ForgotPassword() {
     <input type="email"
            className="input"
            placeholder="Provide your account email"
-           onChange={event => setEmail(event.target.value)}
+           onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
     />
     <button className="button" onClick={handleResetPassword}>
       Reset Password

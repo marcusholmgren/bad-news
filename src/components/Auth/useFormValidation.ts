@@ -1,8 +1,13 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
+import React from 'react';
 
-function useFormValidation(initialState, validate, authenticate) {
+type Errors<T> = {
+  [K in keyof T]?: string;
+};
+
+function useFormValidation<T>(initialState: T, validate: (values: T) => Errors<T>, authenticate: () => void) {
     const [values, setValues] = useState(initialState);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<Errors<T>>({});
     const [isSubmitting, setSubmitting] = useState(false);
 
 
@@ -19,8 +24,7 @@ function useFormValidation(initialState, validate, authenticate) {
     }, [errors, isSubmitting, values, authenticate]);
 
 
-    function handleChange(event) {
-        event.persist();
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setValues(prevValues => ({
             ...prevValues,
             [event.target.name]: event.target.value
@@ -33,7 +37,7 @@ function useFormValidation(initialState, validate, authenticate) {
     }
 
 
-    function handleSubmit(event) {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const validationErrors = validate(values);
         setErrors(validationErrors);

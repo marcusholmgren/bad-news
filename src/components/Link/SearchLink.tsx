@@ -1,27 +1,46 @@
 import React, {useContext, useEffect, useState} from "react";
 import {FirebaseContext} from "../../firebase";
 import LinkItem from "./LinkItem";
+import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 
-function SearchLinks() {
-  const { firebase } = useContext(FirebaseContext);
-  const [filteredLinks, setFilteredLinks] = useState([]);
-  const [links, setLinks] = useState([]);
+interface LinkData {
+    id: string;
+    url: string;
+    description: string;
+    created: number;
+    voteCount: number;
+    postedBy: {
+        id: string;
+        name: string;
+    };
+    comments: any[];
+    votes: any[];
+}
+
+const SearchLinks: React.FC = () => {
+  const context = useContext(FirebaseContext);
+  const [filteredLinks, setFilteredLinks] = useState<LinkData[]>([]);
+  const [links, setLinks] = useState<LinkData[]>([]);
   const [filter, setFilter] = useState('');
 
+  if (!context) {
+    return null;
+  }
+  const { firebase } = context;
 
   useEffect(() => {
-    firebase.db.collection('links').get().then(snapshot => {
-      const links = snapshot.docs.map(doc => {
+    firebase.db.collection('links').get().then((snapshot: QuerySnapshot<DocumentData>) => {
+      const fetchedLinks = snapshot.docs.map(doc => {
         return {
           id: doc.id,
           ...doc.data()
-        }
+        } as LinkData;
       });
-      setLinks(links);
+      setLinks(fetchedLinks);
     });
   }, [firebase.db]);
 
-  function handleSearch(event) {
+  function handleSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const query = filter.toLowerCase();
     const matchedLinks = links.filter(link => {
@@ -36,7 +55,7 @@ function SearchLinks() {
       <div>
       <form onSubmit={handleSearch}>
         <div>
-          Search <input type="text" onChange={event => setFilter(event.target.value)}/>
+          Search <input type="text" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFilter(event.target.value)}/>
           <button type="submit">OK</button>
         </div>
       </form>

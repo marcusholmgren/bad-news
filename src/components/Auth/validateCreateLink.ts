@@ -1,5 +1,15 @@
-export default function validateCreateLink(values) {
-  const errors = {};
+interface CreateLinkValues {
+  url?: string;
+  description?: string;
+}
+
+interface CreateLinkErrors {
+  url?: string;
+  description?: string;
+}
+
+export default function validateCreateLink(values: CreateLinkValues): CreateLinkErrors {
+  const errors: CreateLinkErrors = {};
 
   // URL Errors
   if (!values.url) {

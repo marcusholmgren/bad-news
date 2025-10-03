@@ -5,22 +5,9 @@ import LinkItem from "./LinkItem";
 import {LINKS_PER_PAGE} from "../../utils";
 import {firebaseEndpoints} from '../../firebase';
 import { QuerySnapshot, DocumentData, collection, query, orderBy, limit, startAfter, onSnapshot } from 'firebase/firestore';
+import {LinkData} from "./types";
 
-interface LinkData {
-    id: string;
-    url: string;
-    description: string;
-    created: number;
-    voteCount: number;
-    postedBy: {
-        id: string;
-        name: string;
-    };
-    comments: any[];
-    votes: any[];
-}
-
-const LinkList: React.FC = () => {
+function LinkList() {
     const context = useContext(FirebaseContext);
     const [links, setLinks] = useState<LinkData[]>([]);
     const [cursor, setCursor] = useState<LinkData | null>(null);
@@ -31,12 +18,9 @@ const LinkList: React.FC = () => {
     const params = useParams<{ page?: string }>();
     const navigate = useNavigate();
 
-    if (!context) {
-        return null;
-    }
-    const { firebase } = context;
-
     useEffect(() => {
+        if (!context) return;
+        const { firebase } = context;
         setLoading(true);
         const page = Number(params.page);
         const linksCollection = collection(firebase.db, 'links');
@@ -53,7 +37,8 @@ const LinkList: React.FC = () => {
                     setLoading(false);
                 })
                 .catch(err => console.error(err));
-            return () => {};
+            return () => {
+            };
         }
 
         let q;
@@ -68,8 +53,7 @@ const LinkList: React.FC = () => {
         const unsubscribe = onSnapshot(q, handleSnapshot);
 
         return () => unsubscribe();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [firebase.db, location, isTopPage, params, navigate, cursor]);
+    }, [context, location, isTopPage, params, navigate, cursor]);
 
     function handleSnapshot(snapshot: QuerySnapshot<DocumentData>) {
         const fetchedLinks = snapshot.docs.map(doc => {
@@ -100,9 +84,9 @@ const LinkList: React.FC = () => {
         }
     }
 
-    const pageIndex = params.page ? (Number(params.page)  - 1) * LINKS_PER_PAGE : 0;
+    const pageIndex = params.page ? (Number(params.page) - 1) * LINKS_PER_PAGE : 0;
     return (
-        <div style={{ opacity: loading ? 0.25 : 1}}>
+        <div style={{opacity: loading ? 0.25 : 1}}>
             {links.map((link, index) => (
                 <LinkItem
                     key={link.id}

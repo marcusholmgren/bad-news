@@ -1,21 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import {FirebaseContext} from "../../firebase";
 import LinkItem from "./LinkItem";
-import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { DocumentData, QuerySnapshot, collection, getDocs } from 'firebase/firestore';
+import {LinkData} from "./types";
 
-interface LinkData {
-    id: string;
-    url: string;
-    description: string;
-    created: number;
-    voteCount: number;
-    postedBy: {
-        id: string;
-        name: string;
-    };
-    comments: any[];
-    votes: any[];
-}
 
 const SearchLinks: React.FC = () => {
   const context = useContext(FirebaseContext);
@@ -23,13 +11,10 @@ const SearchLinks: React.FC = () => {
   const [links, setLinks] = useState<LinkData[]>([]);
   const [filter, setFilter] = useState('');
 
-  if (!context) {
-    return null;
-  }
-  const { firebase } = context;
-
   useEffect(() => {
-    firebase.db.collection('links').get().then((snapshot: QuerySnapshot<DocumentData>) => {
+    if (!context) return;
+    const linksCollection = collection(context.firebase.db, 'links');
+    getDocs(linksCollection).then((snapshot: QuerySnapshot<DocumentData>) => {
       const fetchedLinks = snapshot.docs.map(doc => {
         return {
           id: doc.id,
@@ -38,7 +23,11 @@ const SearchLinks: React.FC = () => {
       });
       setLinks(fetchedLinks);
     });
-  }, [firebase.db]);
+  }, [context]);
+
+  if (!context) {
+    return null;
+  }
 
   function handleSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

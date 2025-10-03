@@ -1,5 +1,6 @@
 import React, { useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
+import { FirebaseError } from "firebase/app";
 import useFormValidation from './useFormValidation';
 import validateLogin from './validateLogin';
 import firebase from '../../firebase';
@@ -27,13 +28,16 @@ const Login: React.FC = () => {
   async function authenticateUser() {
     const { name, email, password} = values;
     try {
-      login
-          ? await firebase.login(email, password)
-          : await firebase.register(name, email, password);
+      if (login) {
+        await firebase.login(email, password);
+      } else {
+        await firebase.register(name, email, password);
+      }
       navigate('/');
-    } catch(err: any) {
-      console.error("[Login] Authentication error", err);
-      setFirebaseError(err.message);
+    } catch(err) {
+      const firebaseError = err as FirebaseError;
+      console.error("[Login] Authentication error", firebaseError);
+      setFirebaseError(firebaseError.message);
     }
   }
 

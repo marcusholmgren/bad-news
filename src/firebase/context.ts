@@ -11,7 +11,7 @@ interface FirebaseServices {
   db: Firestore;
   analytics: Analytics;
   register: (name: string, email: string, password: string) => Promise<void>;
-  login: (email: string, password: string) => Promise<any>;
+  login: (email: string, password: string) => Promise<never>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 }

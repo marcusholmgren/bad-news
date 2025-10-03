@@ -9,7 +9,7 @@ interface LoginErrors {
 }
 
 export default function validateLogin(values: LoginValues): LoginErrors {
-    let errors: LoginErrors = {}
+    const errors: LoginErrors = {}
 
     // Email Errors
     if (!values.email) {

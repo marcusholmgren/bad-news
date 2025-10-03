@@ -16,7 +16,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "firebase deploy",
-    "test": "vitest"
+    "test": "vitest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {
     "extends": "react-app"

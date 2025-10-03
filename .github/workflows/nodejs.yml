@@ -9,29 +9,38 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:
-  client-build:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
+jobs:
+  build-and-test:
     runs-on: ubuntu-latest
-    env:
-      working-dir: ./
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [20.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Client use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
     - name: Install dependencies
-      run: yarn install --immutable
-      working-directory: ${{ env.working-dir }}
-    - run: yarn build
-      working-directory: ${{ env.working-dir }}
-#    - run: yarn test
-#      working-directory: ${{ env.working-dir }}
+      run: npm ci
+
+    - name: Lint code
+      run: npm run lint
+
+    - name: Build project
+      run: npm run build
+
+    - name: Run tests
+      run: npm test
       env:
         CI: true

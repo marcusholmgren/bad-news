@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-yarn build
-yarn deploy
+npm run build
+npm run deploy

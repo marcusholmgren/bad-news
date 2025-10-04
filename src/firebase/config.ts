@@ -1,5 +1,14 @@
+interface FirebaseConfig {
+  apiKey: string;
+  authDomain: string;
+  databaseURL: string;
+  projectId: string;
+  storageBucket: string;
+  messagingSenderId: string;
+}
+
 // Your web app's Firebase configuration
-const firebaseConfig = {
+const firebaseConfig: FirebaseConfig = {
     apiKey: '<your-api-key>',
     authDomain: '<your-auth-domain>',
     databaseURL: '<your-database-url>',
@@ -8,7 +17,11 @@ const firebaseConfig = {
     messagingSenderId: '<your-sender-id>'
 };
 
-const firebaseEndpoints = {
+interface FirebaseEndpoints {
+  linksPagination: string;
+}
+
+const firebaseEndpoints: FirebaseEndpoints = {
     linksPagination: "https://<your-functions-url>/linksPagination"
 };
 export {firebaseEndpoints};

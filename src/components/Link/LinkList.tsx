@@ -4,71 +4,67 @@ import FirebaseContext from "../../firebase/context";
 import LinkItem from "./LinkItem";
 import {LINKS_PER_PAGE} from "../../utils";
 import {firebaseEndpoints} from '../../firebase';
+import { QuerySnapshot, DocumentData, collection, query, orderBy, limit, startAfter, onSnapshot } from 'firebase/firestore';
+import {LinkData} from "./types";
 
 function LinkList() {
-    const {firebase} = useContext(FirebaseContext);
-    const [links, setLinks] = useState([]);
-    const [cursor, setCursor] = useState(null);
+    const context = useContext(FirebaseContext);
+    const [links, setLinks] = useState<LinkData[]>([]);
+    const [cursor, setCursor] = useState<LinkData | null>(null);
     const [loading, setLoading] = useState(false);
     const location = useLocation();
     const isNewPage = location.pathname.startsWith('/new');
     const isTopPage = location.pathname.startsWith('/top');
-    const params = useParams();
+    const params = useParams<{ page?: string }>();
     const navigate = useNavigate();
-    const linksRef = firebase.db.collection('links');
 
     useEffect(() => {
+        if (!context) return;
+        const { firebase } = context;
         setLoading(true);
         const page = Number(params.page);
+        const linksCollection = collection(firebase.db, 'links');
+
         if (page > 1 && !cursor) {
             const offset = page * LINKS_PER_PAGE - LINKS_PER_PAGE;
 
-
             fetch(`${firebaseEndpoints.linksPagination}?offset=${offset}`)
-                .then(res => res.json())
-                .then(links => {
-                    const lastLink = links[links.length - 1];
-                    setLinks(links);
+                .then(res => res.json() as Promise<LinkData[]>)
+                .then(fetchedLinks => {
+                    const lastLink = fetchedLinks[fetchedLinks.length - 1];
+                    setLinks(fetchedLinks);
                     setCursor(lastLink);
                     setLoading(false);
                 })
                 .catch(err => console.error(err));
-            return () => {};
+            return () => {
+            };
         }
 
-        let unsubscribe;
+        let q;
         if (isTopPage) {
-            unsubscribe = linksRef
-                .orderBy('voteCount', 'desc')
-                .limit(LINKS_PER_PAGE)
-                .onSnapshot(handleSnapshot);
+            q = query(linksCollection, orderBy('voteCount', 'desc'), limit(LINKS_PER_PAGE));
         } else if (cursor && page > 1) {
-            unsubscribe = linksRef
-                .orderBy('created', 'desc')
-                .startAfter(cursor.created)
-                .limit(LINKS_PER_PAGE)
-                .onSnapshot(handleSnapshot);
+            q = query(linksCollection, orderBy('created', 'desc'), startAfter(cursor.created), limit(LINKS_PER_PAGE));
         } else {
-            unsubscribe = linksRef
-                .orderBy('created', 'desc')
-                .limit(LINKS_PER_PAGE)
-                .onSnapshot(handleSnapshot);
+            q = query(linksCollection, orderBy('created', 'desc'), limit(LINKS_PER_PAGE));
         }
+
+        const unsubscribe = onSnapshot(q, handleSnapshot);
 
         return () => unsubscribe();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [firebase.db, location, isTopPage, params, navigate]);
+    }, [context, location, isTopPage, params, navigate, cursor]);
 
-    function handleSnapshot(snapshot) {
-        const links = snapshot.docs.map(doc => {
+    function handleSnapshot(snapshot: QuerySnapshot<DocumentData>) {
+        const fetchedLinks = snapshot.docs.map(doc => {
             return {
                 id: doc.id,
                 ...doc.data()
-            }
+            } as LinkData;
         })
 
-        const lastLink = links[links.length - 1];
-        setLinks(links);
+        const lastLink = fetchedLinks[fetchedLinks.length - 1];
+        setLinks(fetchedLinks);
         setCursor(lastLink);
         setLoading(false);
     }
@@ -88,9 +84,9 @@ function LinkList() {
         }
     }
 
-    const pageIndex = params.page ? (Number(params.page)  - 1) * LINKS_PER_PAGE : 0;
+    const pageIndex = params.page ? (Number(params.page) - 1) * LINKS_PER_PAGE : 0;
     return (
-        <div style={{ opacity: loading ? 0.25 : 1}}>
+        <div style={{opacity: loading ? 0.25 : 1}}>
             {links.map((link, index) => (
                 <LinkItem
                     key={link.id}

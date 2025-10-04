@@ -1,5 +1,15 @@
-export default function validateLogin(values) {
-    let errors = {}
+interface LoginValues {
+  email?: string;
+  password?: string;
+}
+
+interface LoginErrors {
+  email?: string;
+  password?: string;
+}
+
+export default function validateLogin(values: LoginValues): LoginErrors {
+    const errors: LoginErrors = {}
 
     // Email Errors
     if (!values.email) {

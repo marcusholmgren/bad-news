@@ -1,33 +1,43 @@
 import React, { useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
+import { FirebaseError } from "firebase/app";
 import useFormValidation from './useFormValidation';
 import validateLogin from './validateLogin';
 import firebase from '../../firebase';
 
-const INITIAL_STATE = {
+interface LoginState {
+  name: string;
+  email: string;
+  password: string;
+}
+
+const INITIAL_STATE: LoginState = {
   name: "",
   email: "",
   password: ""
 }
 
-function Login(props) {
+const Login: React.FC = () => {
   const { handleSubmit, handleBlur, handleChange,
     values, errors, isSubmitting
   } = useFormValidation(INITIAL_STATE, validateLogin, authenticateUser);
   const [login, setLogin] = useState(true);
-  const [firebaseError, setFirebaseError] = useState(null);
+  const [firebaseError, setFirebaseError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   async function authenticateUser() {
     const { name, email, password} = values;
     try {
-      login
-          ? await firebase.login(email, password)
-          : await firebase.register(name, email, password);
+      if (login) {
+        await firebase.login(email, password);
+      } else {
+        await firebase.register(name, email, password);
+      }
       navigate('/');
     } catch(err) {
-      console.error("[Login] Authentication error", err);
-      setFirebaseError(err.message);
+      const firebaseError = err as FirebaseError;
+      console.error("[Login] Authentication error", firebaseError);
+      setFirebaseError(firebaseError.message);
     }
   }
 
